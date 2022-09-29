@@ -27,7 +27,7 @@ namespace OOPLAB1
                 this.startConsoleInterface();
             }
             private List<EnergyConsuption> EnergyConsuption { get; set; }
-            public void addEnergyConsuption(double plan, double fact)
+            public void addEnergyConsuption(float plan, float fact)
             {
                 this.EnergyConsuption.Add(new EnergyConsuption(plan, fact));
             }
@@ -82,17 +82,13 @@ namespace OOPLAB1
                 {
                     string data = Console.ReadLine();
                     string[] dataArr = new string[] { };
-                    if (data.Contains(","))
-                    {
-                        dataArr = data.Split(",");
-                    }
-                    else if (data.Contains(" "))
+                    if (data.Contains(" "))
                     {
                         dataArr = data.Split(" ");
                     }
                     if (dataArr.Length == 2)
                     {
-                        this.addEnergyConsuption(double.Parse(dataArr[0]), double.Parse(dataArr[1]));
+                        this.addEnergyConsuption(float.Parse(dataArr[0]), float.Parse(dataArr[1]));
 
                     }
                     else
@@ -117,7 +113,7 @@ namespace OOPLAB1
                 }
                 if (dataArr.Length == 2)
                 {
-                    this.getDeviation(new EnergyConsuption(double.Parse(dataArr[0]), double.Parse(dataArr[1])));
+                    this.getDeviation(new EnergyConsuption(float.Parse(dataArr[0]), float.Parse(dataArr[1])));
                     this.startConsoleInterface();
                 }
                 else
@@ -141,7 +137,7 @@ namespace OOPLAB1
                 }
                 if (dataArr.Length == 2)
                 {
-                    this.getDeviationRate(new EnergyConsuption(double.Parse(dataArr[0]), double.Parse(dataArr[1])));
+                    this.getDeviationRate(new EnergyConsuption(float.Parse(dataArr[0]), float.Parse(dataArr[1])));
                     this.startConsoleInterface();
                 }
                 else
@@ -170,29 +166,29 @@ namespace OOPLAB1
                 Console.WriteLine("|________________________|____________________________|");
                 this.startConsoleInterface();
             }
-            private double getDeviation(EnergyConsuption energyConsuption)
+            private float getDeviation(EnergyConsuption energyConsuption)
             {
                 return energyConsuption.plan - energyConsuption.fact;
             }
-            private double getDeviationRate(EnergyConsuption energyConsuption)
+            private float getDeviationRate(EnergyConsuption energyConsuption)
             {
                 return (energyConsuption.plan - energyConsuption.fact) * 100 / energyConsuption.plan;
             }
-            (double plan, double fact) getSumResults()
+            (float plan, float fact) getSumResults()
             {
                 return ((from consumption in this.EnergyConsuption select consumption.plan).Sum(), (from consumption in this.EnergyConsuption select consumption.fact).Sum());
             }
         }
         class EnergyConsuption
         {
-            public EnergyConsuption(double plan, double fact)
+            public EnergyConsuption(float plan, float fact)
             {
                 this.plan = plan;
                 this.fact = fact;
             }
 
-            public double plan { get; set; }
-            public double fact { get; set; }
+            public float plan { get; set; }
+            public float fact { get; set; }
         }
     }
 }
