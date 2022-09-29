@@ -162,11 +162,11 @@ namespace OOPLAB1
                 this.EnergyConsuption.ForEach(e =>
                 {
 
-                    Console.WriteLine($"|   {e.plan} |     {e.fact}   |    {this.getDeviation(e)}  |    {this.getDeviationRate(e)}      |");
+                    Console.WriteLine($"|   {e.plan}      |     {e.fact}      |     {this.getDeviation(e)}     |    {this.getDeviationRate(e)}       |");
                 });
                 Console.WriteLine("|________________________|____________________________|");
                 var sum = this.getSumResults();
-                Console.WriteLine($"|{sum.plan}              |{sum.fact}|                  |");
+                Console.WriteLine($"|     {sum.plan}     |      {sum.fact}     |                               |");
                 Console.WriteLine("|________________________|____________________________|");
                 this.startConsoleInterface();
             }
