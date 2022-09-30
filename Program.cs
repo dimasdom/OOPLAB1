@@ -16,27 +16,25 @@ namespace OOPLAB1
         {
             public Factory()
             {
-                this.EnergyConsuption= new List<EnergyConsuption>();
+                this.EnergyConsuption = new List<EnergyConsuption>();
             }
 
             public void main()
             {
                 Console.WriteLine("Welcome");
                 Console.WriteLine("Choose what you want to get");
-                
+
                 this.startConsoleInterface();
             }
             private List<EnergyConsuption> EnergyConsuption { get; set; }
-            public void addEnergyConsuption(float plan, float fact)
+            public void addEnergyConsuption(string name, float plan, float fact)
             {
-                this.EnergyConsuption.Add(new EnergyConsuption(plan, fact));
+                this.EnergyConsuption.Add(new EnergyConsuption(name, plan, fact));
             }
             private void startConsoleInterface()
             {
                 Console.WriteLine("Type 1 for set energy consumption data");
-                Console.WriteLine("Type 2 for get deviation");
-                Console.WriteLine("Type 3 for get deviation rate");
-                Console.WriteLine("Type 4 for get all data in table");
+                Console.WriteLine("Type 2 for get all data in table");
                 Console.WriteLine("Type exit to close a program");
                 string variant = Console.ReadLine();
                 switch (variant)
@@ -47,16 +45,6 @@ namespace OOPLAB1
                         }
                         break;
                     case "2":
-                        {
-                           this.consoleGetDeviation();
-                        }
-                        break;
-                    case "3":
-                        {
-                            this.consoleGetDeviationRate();
-                        }
-                        break;
-                    case "4":
                         {
                             this.consoleGetTotalSum();
                         }
@@ -77,7 +65,7 @@ namespace OOPLAB1
             {
                 Console.WriteLine("Set count of records");
                 string count = Console.ReadLine();
-                Console.WriteLine("First is plan second is fact consumtion");
+                Console.WriteLine("Name of Factory, plan, fact consumtion. [Abcdef xxx,xx xxx,xxx]");
                 for (int i = 0; i < Int32.Parse(count); i++)
                 {
                     string data = Console.ReadLine();
@@ -86,9 +74,9 @@ namespace OOPLAB1
                     {
                         dataArr = data.Split(" ");
                     }
-                    if (dataArr.Length == 2)
+                    if (dataArr.Length == 3)
                     {
-                        this.addEnergyConsuption(float.Parse(dataArr[0]), float.Parse(dataArr[1]));
+                        this.addEnergyConsuption(dataArr[0], float.Parse(dataArr[1]), float.Parse(dataArr[2]));
 
                     }
                     else
@@ -99,71 +87,22 @@ namespace OOPLAB1
                 }
                 this.startConsoleInterface();
             }
-            private void consoleGetDeviation()
-            {
-                string data = Console.ReadLine();
-                string[] dataArr = new string[] { };
-                if (data.Contains(","))
-                {
-                    dataArr = data.Split(",");
-                }
-                else if (data.Contains(" "))
-                {
-                    dataArr = data.Split(" ");
-                }
-                if (dataArr.Length == 2)
-                {
-                    this.getDeviation(new EnergyConsuption(float.Parse(dataArr[0]), float.Parse(dataArr[1])));
-                    this.startConsoleInterface();
-                }
-                else
-                {
-                    Console.WriteLine("Wrong data try again");
-                    this.consoleGetDeviation();
-                }
-                this.startConsoleInterface();
-            }
-            private void consoleGetDeviationRate()
-            {
-                string data = Console.ReadLine();
-                string[] dataArr = new string[] { };
-                if (data.Contains(","))
-                {
-                    dataArr = data.Split(",");
-                }
-                else if (data.Contains(" "))
-                {
-                    dataArr = data.Split(" ");
-                }
-                if (dataArr.Length == 2)
-                {
-                    this.getDeviationRate(new EnergyConsuption(float.Parse(dataArr[0]), float.Parse(dataArr[1])));
-                    this.startConsoleInterface();
-                }
-                else
-                {
-                    Console.WriteLine("Wrong data try again");
-                    this.consoleGetDeviationRate();
-                }
-                this.startConsoleInterface();
-            }
             private void consoleGetTotalSum()
             {
 
-                Console.WriteLine("_______________________________________________________");
-                Console.WriteLine("|Energy consumption kwt*h|    Deviation from plan     |");
-                Console.WriteLine("|________________________|____________________________|");
-                Console.WriteLine("|   planned |     fact   |    in kwt*h  |    in%      |");
-                Console.WriteLine("|________________________|____________________________|");
+                Console.WriteLine("+----------------------------------------------------------------------+");
+                Console.WriteLine("|             |  Energy consumption kwt*h  |    Deviation from plan    |");
+                Console.WriteLine("|   Factory   |--------------------------------------------------------|");
+                Console.WriteLine("|             |   planned   |     fact     |   in kwt*h   |     in%    |");
+                Console.WriteLine("|----------------------------------------------------------------------|");
                 this.EnergyConsuption.ForEach(e =>
                 {
-
-                    Console.WriteLine($"|   {e.plan}      |     {e.fact}      |     {this.getDeviation(e)}     |    {this.getDeviationRate(e)}       |");
+                    Console.WriteLine($"|   {e.name,-10}|   {e.plan,-10}|    {e.fact,-10}|  {this.getDeviation(e),-12}|  {this.getDeviationRate(e),-10}|");
+                    Console.WriteLine("|----------------------------------------------------------------------|");
                 });
-                Console.WriteLine("|________________________|____________________________|");
                 var sum = this.getSumResults();
-                Console.WriteLine($"|     {sum.plan}     |      {sum.fact}     |                               |");
-                Console.WriteLine("|________________________|____________________________|");
+                Console.WriteLine($"|    Sum      |   {sum.plan,-10}|    {sum.fact,-10}|                           |");
+                Console.WriteLine("+----------------------------------------------------------------------+");
                 this.startConsoleInterface();
             }
             private float getDeviation(EnergyConsuption energyConsuption)
@@ -181,12 +120,14 @@ namespace OOPLAB1
         }
         class EnergyConsuption
         {
-            public EnergyConsuption(float plan, float fact)
+            public EnergyConsuption(string name, float plan, float fact)
             {
+                this.name = name;
                 this.plan = plan;
                 this.fact = fact;
             }
 
+            public string name { get; set; }
             public float plan { get; set; }
             public float fact { get; set; }
         }
